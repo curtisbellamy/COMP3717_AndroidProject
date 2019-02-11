@@ -30,17 +30,17 @@ public class CulturalEventAdapter extends ArrayAdapter<CulturalEvent>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_layout, parent, false);
         }
         // Lookup view for data population
-        TextView tvFirstName = (TextView) convertView.findViewById(R.id.firstName);
-        TextView tvLastName = (TextView) convertView.findViewById(R.id.lastName);
+        TextView tvFirstName = (TextView) convertView.findViewById(R.id.name);
+        TextView tvLastName = (TextView) convertView.findViewById(R.id.address);
         // Populate the data into the template view using the data object
-        tvFirstName.setText(toon.getFirstName());
-        tvLastName.setText(toon.getLastName());
+        tvFirstName.setText(ce.getName());
+        tvLastName.setText(ce.getAddress());
 
         ImageView imgOnePhoto = (ImageView) convertView.findViewById(R.id.thumbImage);
         //DownloadImageTask dit = new DownloadImageTask(_context, imgOnePhoto);
         //dit.execute(toon.getPicture());
-        if (toon.getPicture() != null) {
-            new ImageDownloaderTask(imgOnePhoto).execute(toon.getPicture());
+        if (ce.getPicture() != null) {
+            new ImageDownloaderTask(imgOnePhoto).execute(ce.getPicture());
         }
 
         // Return the completed view to render on screen

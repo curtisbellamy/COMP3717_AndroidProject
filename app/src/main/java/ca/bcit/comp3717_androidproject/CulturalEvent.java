@@ -21,6 +21,8 @@ public class CulturalEvent {
     private String X;
     private String Y;
 
+    private String Picture;
+
     public void setAddress(String address){
         this.Address = address;
     }
@@ -35,6 +37,15 @@ public class CulturalEvent {
 
     public String getName(){
         return Name;
+    }
+
+
+
+    public void setPicture(String Picture){
+        this.Picture = Picture;
+    }
+    public String getPicture(){
+        return this.Picture;
     }
 
 
