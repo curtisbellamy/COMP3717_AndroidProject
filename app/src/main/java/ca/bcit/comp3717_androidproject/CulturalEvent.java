@@ -21,6 +21,23 @@ public class CulturalEvent {
     private String X;
     private String Y;
 
+    public void setAddress(String address){
+        this.Address = address;
+    }
+
+    public String getAddress(){
+        return Address;
+    }
+
+    public void setName(String name){
+        this.Name = name;
+    }
+
+    public String getName(){
+        return Name;
+    }
+
+
 //    private int PersonId;
 //
 //    private String FirstName;

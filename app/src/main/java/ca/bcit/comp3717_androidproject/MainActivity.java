@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private ListView lv;
 
-    private ArrayList<CulturalEvent> toonList;
+    private ArrayList<CulturalEvent> eventList;
 
     // URL to get contacts JSON
     private static String SERVICE_URL = "http://opendata.newwestcity.ca/downloads/cultural-events/EVENTS.json";
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.listView);
     }
 
-    @Override
+    //@Override
     protected Void doInBackground(Void... arg0) {
         HttpHandler sh = new HttpHandler();
 
@@ -52,28 +52,33 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < toonJsonArray.length(); i++) {
                     JSONObject c = toonJsonArray.getJSONObject(i);
 
-                    String personId = c.getString("PersonId");
-                    String firstName = c.getString("FirstName");
-                    String lastName = c.getString("LastName");
-                    String occupation = c.getString("Occupation");
-                    String gender = c.getString("Gender");
-                    String created = c.getString("Created");
-                    String picture = c.getString("Picture");
+//                    String personId = c.getString("PersonId");
+//                    String firstName = c.getString("FirstName");
+//                    String lastName = c.getString("LastName");
+//                    String occupation = c.getString("Occupation");
+//                    String gender = c.getString("Gender");
+//                    String created = c.getString("Created");
+//                    String picture = c.getString("Picture");
+                    String name = c.getString("Name");
+                    String address = c.getString("Address");
 
                     // tmp hash map for single contact
-                    Toon toon = new Toon();
+                    //Toon toon = new Toon();
+                    CulturalEvent ce = new CulturalEvent();
 
                     // adding each child node to HashMap key => value
-                    toon.setPersonId(Integer.parseInt(personId));
-                    toon.setFirstName(firstName);
-                    toon.setLastName(lastName);
-                    toon.setOccupation(occupation);
-                    toon.setGender(gender);
-                    toon.setCreated(created);
-                    toon.setPicture(picture);
+//                    toon.setPersonId(Integer.parseInt(personId));
+//                    toon.setFirstName(firstName);
+//                    toon.setLastName(lastName);
+//                    toon.setOccupation(occupation);
+//                    toon.setGender(gender);
+//                    toon.setCreated(created);
+//                    toon.setPicture(picture);
+                    ce.setName(name);
+                    ce.setAddress(address);
 
                     // adding contact to contact list
-                    toonList.add(toon);
+                    eventList.add(ce);
                 }
             } catch (final JSONException e) {
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
