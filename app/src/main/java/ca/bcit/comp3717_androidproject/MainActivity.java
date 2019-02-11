@@ -1,6 +1,7 @@
 package ca.bcit.comp3717_androidproject;
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<CulturalEvent> eventList;
 
     // URL to get contacts JSON
-    private static String SERVICE_URL = "http://opendata.newwestcity.ca/downloads/cultural-events/EVENTS.json";
+     private static String SERVICE_URL = "http://opendata.newwestcity.ca/downloads/cultural-events/EVENTS.json";
 
+    //private static String SERVICE_URL = "http://flintstones.zift.ca/api/flintstones/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,81 +34,101 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.listView);
     }
 
-    //@Override
-    protected Void doInBackground(Void... arg0) {
-        HttpHandler sh = new HttpHandler();
 
-        // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(SERVICE_URL);
+    /**
+     * Async task class to get json by making HTTP call
+     */
+    private class GetContacts extends AsyncTask<Void, Void, Void> {
 
-        Log.e(TAG, "Response from url: " + jsonStr);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
 
-        if (jsonStr != null) {
-            try {
-                //JSONObject jsonObj = new JSONObject(jsonStr);
+        }
 
-                // Getting JSON Array node
-                JSONArray toonJsonArray = new JSONArray(jsonStr);
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
 
-                // looping through All Contacts
-                for (int i = 0; i < toonJsonArray.length(); i++) {
-                    JSONObject c = toonJsonArray.getJSONObject(i);
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(SERVICE_URL);
 
-//                    String personId = c.getString("PersonId");
-//                    String firstName = c.getString("FirstName");
-//                    String lastName = c.getString("LastName");
-//                    String occupation = c.getString("Occupation");
-//                    String gender = c.getString("Gender");
-//                    String created = c.getString("Created");
-//                    String picture = c.getString("Picture");
-                    String name = c.getString("Name");
-                    String address = c.getString("Address");
+            Log.e(TAG, "Response from url: " + jsonStr);
 
-                    // tmp hash map for single contact
-                    //Toon toon = new Toon();
-                    CulturalEvent ce = new CulturalEvent();
+            if (jsonStr != null) {
+                try {
+                    //JSONObject jsonObj = new JSONObject(jsonStr);
 
-                    // adding each child node to HashMap key => value
-//                    toon.setPersonId(Integer.parseInt(personId));
-//                    toon.setFirstName(firstName);
-//                    toon.setLastName(lastName);
-//                    toon.setOccupation(occupation);
-//                    toon.setGender(gender);
-//                    toon.setCreated(created);
-//                    toon.setPicture(picture);
-                    ce.setName(name);
-                    ce.setAddress(address);
+                    // Getting JSON Array node
+                    JSONArray ceJsonArray = new JSONArray(jsonStr);
 
-                    // adding contact to contact list
-                    eventList.add(ce);
+                    // looping through All Contacts
+                    for (int i = 0; i < ceJsonArray.length(); i++) {
+                        JSONObject c = ceJsonArray.getJSONObject(i);
+
+                        String name = c.getString("Name");
+                        String address = c.getString("Address");
+
+                        // tmp hash map for single contact
+                        CulturalEvent ce = new CulturalEvent();
+
+
+                        ce.setName(name);
+                        ce.setAddress(address);
+
+                        // adding contact to contact list
+                        eventList.add(ce);
+                    }
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+
                 }
-            } catch (final JSONException e) {
-                Log.e(TAG, "Json parsing error: " + e.getMessage());
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Json parsing error: " + e.getMessage(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
                 });
 
             }
-        } else {
-            Log.e(TAG, "Couldn't get json from server.");
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            "Couldn't get json from server. Check LogCat for possible errors!",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-            });
 
+            return null;
         }
 
-        return null;
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
+            CulturalEventAdapter adapter = new CulturalEventAdapter(MainActivity.this, eventList);
+
+            // Attach the adapter to a ListView
+            lv.setAdapter(adapter);
+        }
     }
+
 }
+
+

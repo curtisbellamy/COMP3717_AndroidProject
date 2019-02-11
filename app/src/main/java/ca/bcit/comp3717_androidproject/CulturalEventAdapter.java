@@ -37,8 +37,8 @@ public class CulturalEventAdapter extends ArrayAdapter<CulturalEvent>{
         tvLastName.setText(ce.getAddress());
 
         ImageView imgOnePhoto = (ImageView) convertView.findViewById(R.id.thumbImage);
-        //DownloadImageTask dit = new DownloadImageTask(_context, imgOnePhoto);
-        //dit.execute(toon.getPicture());
+
+
         if (ce.getPicture() != null) {
             new ImageDownloaderTask(imgOnePhoto).execute(ce.getPicture());
         }
