@@ -19,21 +19,23 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private ListView lv;
 
-    private ArrayList<CulturalEvent> eventList;
-
-    // URL to get contacts JSON
-     private static String SERVICE_URL = "http://opendata.newwestcity.ca/downloads/cultural-events/EVENTS.json";
-
-    //private static String SERVICE_URL = "http://flintstones.zift.ca/api/flintstones/";
+    private static String SERVICE_URL;
+    private ArrayList<CulturalEvent> culturalEventList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView listView = (ListView)findViewById(R.id.listView);
-    }
+        culturalEventList = new ArrayList<CulturalEvent>();
+        lv = (ListView) findViewById(R.id.listView);
+        new GetContacts().execute();
 
+        String message = getIntent().getStringExtra("message_key");
+        //SERVICE_URL = "https://restcountries.eu/rest/v2/region/" + message.toLowerCase();
+        SERVICE_URL = "https://api.myjson.com/bins/r104u";
+
+    }
 
     /**
      * Async task class to get json by making HTTP call
@@ -62,27 +64,29 @@ public class MainActivity extends AppCompatActivity {
 
             if (jsonStr != null) {
                 try {
-                    //JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    // Getting JSON Array node
-                    JSONArray ceJsonArray = new JSONArray(jsonStr);
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    JSONArray eventJsonArray = jsonObj.getJSONArray("features");
 
                     // looping through All Contacts
-                    for (int i = 0; i < ceJsonArray.length(); i++) {
-                        JSONObject c = ceJsonArray.getJSONObject(i);
+                    for (int i = 0; i < eventJsonArray.length(); i++) {
 
-                        String name = c.getString("Name");
-                        String address = c.getString("Address");
+                        JSONObject c = eventJsonArray.getJSONObject(i);
+                        String prop = c.getString("properties");
+                        JSONObject jo = new JSONObject(prop);
+
+                        String firstName = jo.getString("Name");
+                        String lastName = jo.getString("city");
+
 
                         // tmp hash map for single contact
                         CulturalEvent ce = new CulturalEvent();
 
-
-                        ce.setName(name);
-                        ce.setAddress(address);
+                        ce.setName(firstName);
+                        ce.setCity(lastName);
 
                         // adding contact to contact list
-                        eventList.add(ce);
+                        culturalEventList.add(ce);
+
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            CulturalEventAdapter adapter = new CulturalEventAdapter(MainActivity.this, eventList);
+            CulturalEventAdapter adapter = new CulturalEventAdapter(MainActivity.this, culturalEventList);
 
             // Attach the adapter to a ListView
             lv.setAdapter(adapter);
@@ -130,5 +134,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
 
