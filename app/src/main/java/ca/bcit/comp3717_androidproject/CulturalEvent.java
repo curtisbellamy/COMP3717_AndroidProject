@@ -24,6 +24,16 @@ public class CulturalEvent implements Serializable {
     private String Y;
     private String date;
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    private String time;
+
     private String Picture;
 
     public void setAddress(String address){
