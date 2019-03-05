@@ -1,6 +1,8 @@
 package ca.bcit.comp3717_androidproject;
 
-public class CulturalEvent {
+import java.io.Serializable;
+
+public class CulturalEvent implements Serializable {
     private String email;
     private String address2;
     private String Address;

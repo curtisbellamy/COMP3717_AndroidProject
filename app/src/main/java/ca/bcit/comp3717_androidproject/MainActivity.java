@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -42,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-                        Intent intent = new Intent(MainActivity.this, CountryInfo.class);
-                        Country selectedFromList = (Country) lv.getItemAtPosition(position);
-                        String selectedString = selectedFromList.getName();
-                        intent.putExtra("message_key", selectedString);
+                        Intent intent = new Intent(MainActivity.this, EventInfo.class);
+                        CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
+                        //String selectedString = selectedFromList.getName();
+                        intent.putExtra("message_key", selectedFromList);
                         startActivity(intent);
 
                     }
