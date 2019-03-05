@@ -3,6 +3,8 @@ package ca.bcit.comp3717_androidproject;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class EventInfo extends AppCompatActivity {
@@ -23,10 +25,28 @@ public class EventInfo extends AppCompatActivity {
         TextView details = (TextView) findViewById(R.id.eventDetails);
 
         title.setText(ce.getName());
-        date.setText(ce.getDate());
-        time.setText(ce.getTime());
-        address.setText(ce.getAddress());
-        details.setText(ce.getDescriptn());
+
+        if (ce.getDate() != "")
+            date.setText(ce.getDate());
+        else
+            date.setText("N/A");
+
+        if (ce.getTime() != "")
+            time.setText(ce.getTime());
+        else
+            time.setText("N/A");
+
+        if (ce.getAddress() != "")
+            address.setText(ce.getAddress());
+        else
+            address.setText("N/A");
+
+        if (ce.getDescriptn() != "")
+            details.setText(ce.getDescriptn());
+        else
+            details.setText("N/A");
+
+        details.setMovementMethod(new ScrollingMovementMethod());
 
     }
 }

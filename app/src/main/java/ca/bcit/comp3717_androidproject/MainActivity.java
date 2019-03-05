@@ -95,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                         String firstName = jo.getString("Name");
                         String lastName = jo.getString("city");
                         String date = jo.getString("date");
+                        String details = jo.getString("Descriptn");
+                        String address = jo.getString("Address");
+                        String time = jo.getString("time");
 
                         // Placeholder image to be changed at a later time
                         String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
@@ -104,10 +107,13 @@ public class MainActivity extends AppCompatActivity {
                         // tmp hash map for single contact
                         CulturalEvent ce = new CulturalEvent();
 
+                        ce.setTime(time);
                         ce.setName(firstName);
                         ce.setCity(lastName);
                         ce.setPicture(image);
                         ce.setDate(date);
+                        ce.setDescriptn(details);
+                        ce.setAddress(address);
 
                         // adding contact to contact list
                         culturalEventList.add(ce);
