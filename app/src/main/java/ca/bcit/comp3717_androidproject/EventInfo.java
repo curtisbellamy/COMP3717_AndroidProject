@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -47,6 +49,16 @@ public class EventInfo extends AppCompatActivity {
             details.setText("N/A");
 
         details.setMovementMethod(new ScrollingMovementMethod());
+
+        Button mapBtn = (Button) findViewById(R.id.mapBtn);
+
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(EventInfo.this, MapLocation.class);
+                //intent.putExtra("message_key", selectedFromList);
+                startActivity(intent);
+            }
+        });
 
     }
 }
