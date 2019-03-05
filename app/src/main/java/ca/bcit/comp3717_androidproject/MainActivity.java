@@ -1,10 +1,13 @@
 package ca.bcit.comp3717_androidproject;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,7 +36,21 @@ public class MainActivity extends AppCompatActivity {
         new GetContacts().execute();
 
         String message = getIntent().getStringExtra("message_key");
-        SERVICE_URL = "https://api.myjson.com/bins/r104u";
+        SERVICE_URL = "https://api.myjson.com/bins/mamna";
+
+        lv.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+                        Intent intent = new Intent(MainActivity.this, CountryInfo.class);
+                        Country selectedFromList = (Country) lv.getItemAtPosition(position);
+                        String selectedString = selectedFromList.getName();
+                        intent.putExtra("message_key", selectedString);
+                        startActivity(intent);
+
+                    }
+                }
+        );
 
     }
 
@@ -76,17 +93,11 @@ public class MainActivity extends AppCompatActivity {
 
                         String firstName = jo.getString("Name");
                         String lastName = jo.getString("city");
+                        String date = jo.getString("date");
 
                         // Placeholder image to be changed at a later time
                         String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
 
-                        Random rand = new Random();
-                        int day = rand.nextInt(30);
-                        int month = rand.nextInt(12);
-                        int year = 2019;
-
-                        String date = "";
-                        date += day + " " + month + " " + year;
 
 
                         // tmp hash map for single contact
