@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         new GetContacts().execute();
 
         String message = getIntent().getStringExtra("message_key");
-        SERVICE_URL = "https://api.myjson.com/bins/mamna";
+        SERVICE_URL = "https://api.myjson.com/bins/15knzi";
 
         lv.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
