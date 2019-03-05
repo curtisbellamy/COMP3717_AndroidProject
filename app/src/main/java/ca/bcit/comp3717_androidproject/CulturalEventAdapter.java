@@ -34,7 +34,8 @@ public class CulturalEventAdapter extends ArrayAdapter<CulturalEvent>{
         TextView tvLastName = (TextView) convertView.findViewById(R.id.address);
         // Populate the data into the template view using the data object
         tvFirstName.setText(ce.getName());
-        tvLastName.setText(ce.getAddress());
+//        tvLastName.setText(ce.getCity());
+        tvLastName.setText(ce.getDate());
 
         ImageView imgOnePhoto = (ImageView) convertView.findViewById(R.id.thumbImage);
 

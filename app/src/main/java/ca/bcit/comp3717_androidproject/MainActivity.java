@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         new GetContacts().execute();
 
         String message = getIntent().getStringExtra("message_key");
-        //SERVICE_URL = "https://restcountries.eu/rest/v2/region/" + message.toLowerCase();
         SERVICE_URL = "https://api.myjson.com/bins/r104u";
 
     }
@@ -77,12 +77,25 @@ public class MainActivity extends AppCompatActivity {
                         String firstName = jo.getString("Name");
                         String lastName = jo.getString("city");
 
+                        // Placeholder image to be changed at a later time
+                        String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
+
+                        Random rand = new Random();
+                        int day = rand.nextInt(30);
+                        int month = rand.nextInt(12);
+                        int year = 2019;
+
+                        String date = "";
+                        date += day + " " + month + " " + year;
+
 
                         // tmp hash map for single contact
                         CulturalEvent ce = new CulturalEvent();
 
                         ce.setName(firstName);
                         ce.setCity(lastName);
+                        ce.setPicture(image);
+                        ce.setDate(date);
 
                         // adding contact to contact list
                         culturalEventList.add(ce);

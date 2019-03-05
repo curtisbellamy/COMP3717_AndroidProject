@@ -20,6 +20,7 @@ public class CulturalEvent {
     private String catname;
     private String X;
     private String Y;
+    private String date;
 
     private String Picture;
 
@@ -172,12 +173,13 @@ public class CulturalEvent {
         return Y;
     }
 
+    public void setDate(String date){
+        this.date = date;
+    }
 
-
-
-
-
-
+    public String getDate(){
+        return date;
+    }
 
 
     public void setPicture(String Picture){
