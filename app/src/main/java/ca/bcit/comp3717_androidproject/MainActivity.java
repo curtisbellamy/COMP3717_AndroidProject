@@ -3,6 +3,9 @@ package ca.bcit.comp3717_androidproject;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,22 +13,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
+import android.support.v7.widget.Toolbar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private ListView lv;
-
     private static String SERVICE_URL;
     private ArrayList<CulturalEvent> culturalEventList;
+
+    // Navigation menu
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         String message = getIntent().getStringExtra("message_key");
         SERVICE_URL = "https://api.myjson.com/bins/15knzi";
 
+        // Clicks on the list view, pass object to new activity
         lv.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
                         Intent intent = new Intent(MainActivity.this, EventInfo.class);
                         CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
-                        //String selectedString = selectedFromList.getName();
                         intent.putExtra("message_key", selectedFromList);
                         startActivity(intent);
 
@@ -53,7 +55,31 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
+
+        //----------------------- Begin navigation menu -------------------------//
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
     }
+
+    @Override
+    public void onBackPressed(){
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    //--------------------------- End navigation menu ---------------------------//
 
     /**
      * Async task class to get json by making HTTP call
