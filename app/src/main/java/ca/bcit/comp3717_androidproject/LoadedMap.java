@@ -71,12 +71,12 @@ public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
         Intent i = getIntent();
         if(i != null) {
             final ArrayList<CulturalEvent> list = (ArrayList<CulturalEvent>) i.getSerializableExtra("message_key1");
+            if (list == null){
+                final ArrayList<CulturalVenue> list2 = (ArrayList<CulturalVenue>) i.getSerializableExtra("message_key1");
 
-            if (list != null) {
+                for (CulturalVenue venue : list2) {
 
-                for (CulturalEvent event : list) {
-
-                    String myLocation = event.getAddress() + ", New Westminster, BC, Canada";
+                    String myLocation = venue.getAddress() + ", New Westminster, BC, Canada";
 
                     try {
 
@@ -88,15 +88,43 @@ public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
 
                         LatLng latlng = new LatLng(latitude, longitude);
 
-                        mMap.addMarker(new MarkerOptions().position(latlng).title(event.getName() + ", " + event.getDate() + ", " + event.getTime())).setVisible(true);
+                        mMap.addMarker(new MarkerOptions().position(latlng).title(venue.getName())).setVisible(true);
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
                 }
+
+            } else {
+
+                if (list != null) {
+
+                    for (CulturalEvent event : list) {
+
+                        String myLocation = event.getAddress() + ", New Westminster, BC, Canada";
+
+                        try {
+
+                            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                            List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
+                            Address address = addresses.get(0);
+                            double longitude = address.getLongitude();
+                            double latitude = address.getLatitude();
+
+                            LatLng latlng = new LatLng(latitude, longitude);
+
+                            mMap.addMarker(new MarkerOptions().position(latlng).title(event.getName() + ", " + event.getDate() + ", " + event.getTime())).setVisible(true);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
             }
         }
 
     }
+
 }
