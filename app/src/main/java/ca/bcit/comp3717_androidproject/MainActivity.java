@@ -98,9 +98,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_map :
-                Intent intent = new Intent(MainActivity.this, MapLocation.class);
-                //CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
-                //intent.putExtra("message_key", selectedFromList);
+                Intent intent = new Intent(MainActivity.this, LoadedMap.class);
+                intent.putExtra("message_key", culturalEventList);
                 startActivity(intent);
                 break;
 

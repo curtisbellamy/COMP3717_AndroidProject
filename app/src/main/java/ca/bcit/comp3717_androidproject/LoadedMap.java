@@ -1,5 +1,8 @@
 package ca.bcit.comp3717_androidproject;
 
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -9,6 +12,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -38,9 +46,51 @@ public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        try {
+
+            String centralNewWest = "New Westminster, BC, Canada";
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocationName(centralNewWest, 1);
+            Address address = addresses.get(0);
+            double longitude1 = address.getLongitude();
+            double latitude1 = address.getLatitude();
+
+
+            LatLng latlng1 = new LatLng(latitude1, longitude1);
+
+            // Move the camera instantly to location with a zoom of 15.
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng1, 15));
+
+            // Zoom in, animating the camera.
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Intent i = getIntent();
+        final ArrayList<CulturalEvent> list = (ArrayList<CulturalEvent>) i.getSerializableExtra("message_key");
+
+        for (CulturalEvent event : list){
+
+            String myLocation = event.getAddress() + ", New Westminster, BC, Canada";
+
+            try {
+
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
+                Address address = addresses.get(0);
+                double longitude = address.getLongitude();
+                double latitude = address.getLatitude();
+
+                LatLng latlng = new LatLng(latitude, longitude);
+
+                mMap.addMarker(new MarkerOptions().position(latlng).title(event.getName() + ", " + event.getDate() + ", " + event.getTime())).setVisible(true);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
