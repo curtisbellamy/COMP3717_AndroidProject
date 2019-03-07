@@ -69,28 +69,34 @@ public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
 
 
         Intent i = getIntent();
-        final ArrayList<CulturalEvent> list = (ArrayList<CulturalEvent>) i.getSerializableExtra("message_key");
+        if(i != null) {
+            final ArrayList<CulturalEvent> list = (ArrayList<CulturalEvent>) i.getSerializableExtra("message_key1");
 
-        for (CulturalEvent event : list){
+            if (list != null) {
 
-            String myLocation = event.getAddress() + ", New Westminster, BC, Canada";
+                for (CulturalEvent event : list) {
 
-            try {
+                    String myLocation = event.getAddress() + ", New Westminster, BC, Canada";
 
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
-                Address address = addresses.get(0);
-                double longitude = address.getLongitude();
-                double latitude = address.getLatitude();
+                    try {
 
-                LatLng latlng = new LatLng(latitude, longitude);
+                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                        List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
+                        Address address = addresses.get(0);
+                        double longitude = address.getLongitude();
+                        double latitude = address.getLatitude();
 
-                mMap.addMarker(new MarkerOptions().position(latlng).title(event.getName() + ", " + event.getDate() + ", " + event.getTime())).setVisible(true);
+                        LatLng latlng = new LatLng(latitude, longitude);
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                        mMap.addMarker(new MarkerOptions().position(latlng).title(event.getName() + ", " + event.getDate() + ", " + event.getTime())).setVisible(true);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
             }
-
         }
+
     }
 }

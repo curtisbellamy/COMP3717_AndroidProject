@@ -20,11 +20,13 @@ import android.support.v7.widget.Toolbar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CulturalVenueInfo extends AppCompatActivity {
+public class CulturalVenueInfo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
-    private String TAG = MainActivity.class.getSimpleName(); //////
+    private String TAG = CulturalVenueInfo.class.getSimpleName();
     private ProgressDialog pDialog;
     private ListView lv;
     private static String SERVICE_URL;
@@ -37,7 +39,8 @@ public class CulturalVenueInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //getSupportActionBar().hide();
+        setContentView(R.layout.activity_cultural_venue_info);
 
         culturalVenueList = new ArrayList<CulturalVenue>();
         lv = (ListView) findViewById(R.id.listView);
@@ -45,6 +48,10 @@ public class CulturalVenueInfo extends AppCompatActivity {
 
         //String message = getIntent().getStringExtra("message_key");
         SERVICE_URL = "https://api.myjson.com/bins/vwf0y";
+
+
+        Intent intent = new Intent(CulturalVenueInfo.this, LoadedMap.class);
+        intent.putExtra("message_key2", culturalVenueList);
 
         // Clicks on the list view, pass object to new activity
 //        lv.setOnItemClickListener(
@@ -63,57 +70,55 @@ public class CulturalVenueInfo extends AppCompatActivity {
 
         //----------------------- Begin navigation menu -------------------------//
 
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        drawer = findViewById(R.id.drawer_layout);
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-//                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-//
-//
-//
-//    }
-//
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.nav_event :
-//                // do nothing
-//                drawer.closeDrawers();
-//                break;
-//
-//            case R.id.nav_map :
-//                Intent intent = new Intent(MainActivity.this, LoadedMap.class);
-//                intent.putExtra("message_key", culturalEventList);
-//                startActivity(intent);
-//                break;
-//
-//            case R.id.nav_venue :
-//                Intent intent2 = new Intent(MainActivity.this, MapLocation.class);
-//                //CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
-//                //intent.putExtra("message_key", selectedFromList);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_event :
+                Intent intent = new Intent(CulturalVenueInfo.this, MainActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.nav_map :
+//                Intent intent2 = new Intent(CulturalVenueInfo.this, LoadedMap.class);
+//                intent2.putExtra("message_key2", culturalVenueList);
 //                startActivity(intent2);
-//                break;
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public void onBackPressed(){
-//        if (drawer.isDrawerOpen(GravityCompat.START)){
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
+                break;
+
+            case R.id.nav_venue :
+                // do nothing
+                drawer.closeDrawers();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
         //--------------------------- End navigation menu ---------------------------//
-    }
+
 
     /**
      * Async task class to get json by making HTTP call

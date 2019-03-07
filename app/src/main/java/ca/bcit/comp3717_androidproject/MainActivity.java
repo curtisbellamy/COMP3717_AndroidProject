@@ -20,6 +20,8 @@ import android.support.v7.widget.Toolbar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
 
 
+
         //----------------------- Begin navigation menu -------------------------//
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_map :
                 Intent intent = new Intent(MainActivity.this, LoadedMap.class);
-                intent.putExtra("message_key", culturalEventList);
+                intent.putExtra("message_key1", culturalEventList);
                 startActivity(intent);
                 break;
 
