@@ -1,6 +1,7 @@
 package ca.bcit.comp3717_androidproject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -18,7 +19,7 @@ public class EventInfo extends AppCompatActivity {
         setContentView(R.layout.activity_event_info);
 
         Intent i = getIntent();
-        CulturalEvent ce = (CulturalEvent) i.getSerializableExtra("message_key");
+        final CulturalEvent ce = (CulturalEvent) i.getSerializableExtra("message_key");
 
         TextView title = (TextView) findViewById(R.id.eventTitle);
         TextView date = (TextView) findViewById(R.id.eventDate);
@@ -52,10 +53,14 @@ public class EventInfo extends AppCompatActivity {
 
         Button mapBtn = (Button) findViewById(R.id.mapBtn);
 
+        if (ce.getAddress() == "")
+            mapBtn.setVisibility(View.GONE);
+
+
         mapBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(EventInfo.this, MapLocation.class);
-                //intent.putExtra("message_key", selectedFromList);
+                intent.putExtra("message_key", ce);
                 startActivity(intent);
             }
         });

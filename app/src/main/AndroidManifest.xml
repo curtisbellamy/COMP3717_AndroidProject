@@ -31,10 +31,14 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".LoadedMap"
+            android:label="@string/title_activity_loaded_map"></activity>
+        <activity
             android:name=".MapLocation"
-            android:label="@string/title_activity_map_location"></activity>
+            android:label="@string/title_activity_map_location" />
         <activity android:name=".EventInfo" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,5 +3,6 @@
     <string name="title_activity_map_location">Map</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_loaded_map">Map</string>
 
 </resources>

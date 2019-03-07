@@ -33,6 +33,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Navigation menu
     private DrawerLayout drawer;
 
+    //TODO add event handler to each nav menu button on each activity
+    //TODO favourites page, arraylist intent?
+    //TODO settings page
+    //TODO venues page
+    //TODO images
+    //TODO colors
+    //TODO phone numbers & websites?
+    //TODO add nav bar to all activities
+    //TODO make default maps page show all event and venue addresses
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.nav_event :
                 // do nothing
+                drawer.closeDrawers();
                 break;
 
             case R.id.nav_map :
@@ -91,6 +102,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
                 //intent.putExtra("message_key", selectedFromList);
                 startActivity(intent);
+                break;
+
+            case R.id.nav_venue :
+                Intent intent2 = new Intent(MainActivity.this, MapLocation.class);
+                //CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
+                //intent.putExtra("message_key", selectedFromList);
+                startActivity(intent2);
                 break;
         }
         return true;
