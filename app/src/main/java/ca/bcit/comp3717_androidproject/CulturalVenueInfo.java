@@ -22,26 +22,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CulturalVenueInfo extends AppCompatActivity {
 
-    private String TAG = MainActivity.class.getSimpleName();
+    private String TAG = MainActivity.class.getSimpleName(); //////
     private ProgressDialog pDialog;
     private ListView lv;
     private static String SERVICE_URL;
-    private ArrayList<CulturalEvent> culturalEventList;
+    private ArrayList<CulturalVenue> culturalVenueList;
 
     // Navigation menu
     private DrawerLayout drawer;
-
-    //TODO add event handler to each nav menu button on each activity
-    //TODO favourites page, arraylist intent?
-    //TODO settings page
-    //TODO venues page
-    //TODO images
-    //TODO colors
-    //TODO phone numbers & websites?
-    //TODO add nav bar to all activities
-    //TODO make default maps page show all event and venue addresses
 
 
     @Override
@@ -49,80 +39,81 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        culturalEventList = new ArrayList<CulturalEvent>();
+        culturalVenueList = new ArrayList<CulturalVenue>();
         lv = (ListView) findViewById(R.id.listView);
         new GetContacts().execute();
 
-        String message = getIntent().getStringExtra("message_key");
-        SERVICE_URL = "https://api.myjson.com/bins/15knzi";
+        //String message = getIntent().getStringExtra("message_key");
+        SERVICE_URL = "https://api.myjson.com/bins/vwf0y";
 
         // Clicks on the list view, pass object to new activity
-        lv.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-                        Intent intent = new Intent(MainActivity.this, EventInfo.class);
-                        CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
-                        intent.putExtra("message_key", selectedFromList);
-                        startActivity(intent);
-
-                    }
-                }
-        );
+//        lv.setOnItemClickListener(
+//                new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+//                        Intent intent = new Intent(CulturalVenueInfo.this, CulturalEventDetails.class);
+//                        CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
+//                        intent.putExtra("message_key", selectedFromList);
+//                        startActivity(intent);
+//
+//                    }
+//                }
+//        );
 
 
         //----------------------- Begin navigation menu -------------------------//
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        drawer = findViewById(R.id.drawer_layout);
+//        NavigationView navigationView = findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+//                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//
+//
+//    }
+//
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.nav_event :
+//                // do nothing
+//                drawer.closeDrawers();
+//                break;
+//
+//            case R.id.nav_map :
+//                Intent intent = new Intent(MainActivity.this, LoadedMap.class);
+//                intent.putExtra("message_key", culturalEventList);
+//                startActivity(intent);
+//                break;
+//
+//            case R.id.nav_venue :
+//                Intent intent2 = new Intent(MainActivity.this, MapLocation.class);
+//                //CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
+//                //intent.putExtra("message_key", selectedFromList);
+//                startActivity(intent2);
+//                break;
+//        }
+//        return true;
+//    }
+//
+//    @Override
+//    public void onBackPressed(){
+//        if (drawer.isDrawerOpen(GravityCompat.START)){
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-
-
+        //--------------------------- End navigation menu ---------------------------//
     }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.nav_event :
-                // do nothing
-                drawer.closeDrawers();
-                break;
-
-            case R.id.nav_map :
-                Intent intent = new Intent(MainActivity.this, LoadedMap.class);
-                intent.putExtra("message_key", culturalEventList);
-                startActivity(intent);
-                break;
-
-            case R.id.nav_venue :
-                Intent intent2 = new Intent(MainActivity.this, CulturalVenueInfo.class);
-                //CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
-                //intent.putExtra("message_key", selectedFromList);
-                startActivity(intent2);
-                break;
-        }
-        return true;
-    }
-
-    @Override
-    public void onBackPressed(){
-        if (drawer.isDrawerOpen(GravityCompat.START)){
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    //--------------------------- End navigation menu ---------------------------//
 
     /**
      * Async task class to get json by making HTTP call
@@ -133,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog = new ProgressDialog(CulturalVenueInfo.this);
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -152,21 +143,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (jsonStr != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONArray eventJsonArray = jsonObj.getJSONArray("features");
+                    JSONArray venueJsonArray = jsonObj.getJSONArray("features");
 
                     // looping through All Contacts
-                    for (int i = 0; i < eventJsonArray.length(); i++) {
+                    for (int i = 0; i < venueJsonArray.length(); i++) {
 
-                        JSONObject c = eventJsonArray.getJSONObject(i);
+                        JSONObject c = venueJsonArray.getJSONObject(i);
                         String prop = c.getString("properties");
                         JSONObject jo = new JSONObject(prop);
 
-                        String firstName = jo.getString("Name");
-                        String lastName = jo.getString("city");
-                        String date = jo.getString("date");
+                        String name = jo.getString("Name");
                         String details = jo.getString("Descriptn");
                         String address = jo.getString("Address");
-                        String time = jo.getString("time");
+                        String phone = jo.getString("phone");
 
                         // Placeholder image to be changed at a later time
                         String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
@@ -174,18 +163,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                         // tmp hash map for single contact
-                        CulturalEvent ce = new CulturalEvent();
+                        CulturalVenue cv = new CulturalVenue();
 
-                        ce.setTime(time);
-                        ce.setName(firstName);
-                        ce.setCity(lastName);
-                        ce.setPicture(image);
-                        ce.setDate(date);
-                        ce.setDescriptn(details);
-                        ce.setAddress(address);
+                        cv.setName(name);
+                        cv.setImage(image);
+                        cv.setDescription(details);
+                        cv.setAddress(address);
 
                         // adding contact to contact list
-                        culturalEventList.add(ce);
+                        culturalVenueList.add(cv);
 
                     }
                 } catch (final JSONException e) {
@@ -226,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            CulturalEventAdapter adapter = new CulturalEventAdapter(MainActivity.this, culturalEventList);
+            CulturalVenueAdapter adapter = new CulturalVenueAdapter(CulturalVenueInfo.this, culturalVenueList);
 
             // Attach the adapter to a ListView
             lv.setAdapter(adapter);
