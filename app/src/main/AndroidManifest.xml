@@ -32,14 +32,16 @@
 
         <activity
             android:name=".MapLocation"
-            android:label="@string/title_activity_map_location" />
+            android:label="@string/title_activity_map_location"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".CulturalVenueInfo"
             android:label="Venues"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoadedMap"
-            android:label="@string/title_activity_loaded_map" />
+            android:label="@string/title_activity_loaded_map"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".EventInfo"
             android:label="Details"
             android:theme="@style/AppTheme.NoActionBar"/>

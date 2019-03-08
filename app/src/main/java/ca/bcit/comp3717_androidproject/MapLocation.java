@@ -3,8 +3,17 @@ package ca.bcit.comp3717_androidproject;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,9 +26,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MapLocation extends FragmentActivity implements OnMapReadyCallback {
+public class MapLocation extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
     private GoogleMap mMap;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +39,59 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        //----------------------- Begin navigation menu -------------------------//
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_event :
+                Intent intent = new Intent(MapLocation.this, MainActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.nav_map :
+                Intent intent2 = new Intent(MapLocation.this, LoadedMap.class);
+                //intent2.putExtra("message_key1", culturalVenueList);
+                startActivity(intent2);
+                break;
+
+            case R.id.nav_venue :
+                // do nothing
+                drawer.closeDrawers();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    //--------------------------- End navigation menu ---------------------------//
+
 
 
     /**
