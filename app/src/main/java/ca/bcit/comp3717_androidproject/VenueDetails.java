@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -65,6 +66,27 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+
+        Button webBtn = (Button) findViewById(R.id.webClick);
+        final WebView view =(WebView) findViewById(R.id.webView);
+
+        view.getSettings().setJavaScriptEnabled(true);
+
+        final String url = cv.getWebsite();
+
+        if(cv.getWebsite() == ""){
+            webBtn.setVisibility(View.GONE);
+        } else {
+
+            view.setVisibility(View.GONE);
+        }
+
+        webBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                view.loadUrl(url);
+            }
+        });
+
 
         //----------------------- Begin navigation menu -------------------------//
 

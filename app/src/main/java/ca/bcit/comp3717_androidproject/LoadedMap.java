@@ -23,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -151,7 +152,7 @@ public class LoadedMap extends AppCompatActivity implements OnMapReadyCallback, 
             e.printStackTrace();
         }
 
-            try {
+        try {
 
             for(CulturalVenue venue : venueList) {
 
@@ -165,6 +166,21 @@ public class LoadedMap extends AppCompatActivity implements OnMapReadyCallback, 
                 LatLng latlng1 = new LatLng(latitude1, longitude1);
 
                 mMap.addMarker(new MarkerOptions().position(latlng1).title(venue.getName())).setVisible(true);
+
+            }
+
+            for(CulturalEvent event : eventList) {
+
+                String myLocation = event.getAddress() + "New Westminster, BC, Canada";
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
+                Address address = addresses.get(0);
+                double longitude1 = address.getLongitude();
+                double latitude1 = address.getLatitude();
+
+                LatLng latlng1 = new LatLng(latitude1, longitude1);
+
+                mMap.addMarker(new MarkerOptions().position(latlng1).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(event.getName())).setVisible(true);
 
 
             }
@@ -230,7 +246,7 @@ public class LoadedMap extends AppCompatActivity implements OnMapReadyCallback, 
 
                     }
 
-                    JSONObject jsonObjEvent = new JSONObject(jsonStrVenue);
+                    JSONObject jsonObjEvent = new JSONObject(jsonStrEvent);
                     JSONArray eventJsonArray = jsonObjEvent.getJSONArray("features");
 
 

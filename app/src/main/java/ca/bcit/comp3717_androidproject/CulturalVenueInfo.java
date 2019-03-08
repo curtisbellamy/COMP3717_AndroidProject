@@ -156,6 +156,7 @@ public class CulturalVenueInfo extends AppCompatActivity implements NavigationVi
                         String details = jo.getString("Descriptn");
                         String address = jo.getString("Address");
                         String phone = jo.getString("phone");
+                        String website = jo.getString("website");
 
                         // Placeholder image to be changed at a later time
                         //String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
@@ -168,6 +169,7 @@ public class CulturalVenueInfo extends AppCompatActivity implements NavigationVi
                         cv.setImage(image);
                         cv.setDescription(details);
                         cv.setAddress(address);
+                        cv.setWebsite(website);
 
                         // adding contact to contact list
                         culturalVenueList.add(cv);

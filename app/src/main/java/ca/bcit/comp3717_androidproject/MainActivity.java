@@ -35,16 +35,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Navigation menu
     private DrawerLayout drawer;
 
-    //TODO add event handler to each nav menu button on each activity
     //TODO favourites page, arraylist intent?
-    //TODO settings page
-    //TODO venues details page
-    //TODO images
-    //TODO colors
-    //TODO phone numbers & websites?
-    //TODO add nav bar to all activities
-    //TODO make default maps page show all event and venue addresses
-    //TODO make all json arrays load in loadedmap
+    //TODO event details website
+    //TODO fix screen resolution issues
+    //TODO fix map button for events/venues that dont have an address
+    //TODO programatically center map button if no website
 
 
     @Override
