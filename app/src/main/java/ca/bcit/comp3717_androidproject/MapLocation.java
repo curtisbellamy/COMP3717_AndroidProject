@@ -45,32 +45,33 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         Intent i = getIntent();
-        final CulturalEvent ce = (CulturalEvent) i.getSerializableExtra("message_key");
-//        if(ce == null){
-//            Intent i2 = getIntent();
-//            final CulturalVenue cv = (CulturalVenue) i.getSerializableExtra("message_key2");
-//
-//        }
+        String name = i.getStringExtra("message_key1");
+        String myAddress = i.getStringExtra("message_key2");
+        String date = i.getStringExtra("message_key3");
+        String time = i.getStringExtra("message_key4");
 
         try {
-            String myLocation = ce.getAddress() + "New Westminster, BC, Canada";
+            String myLocation = myAddress + "New Westminster, BC, Canada";
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
             Address address = addresses.get(0);
             double longitude1 = address.getLongitude();
             double latitude1 = address.getLatitude();
 
-            LatLng latlng1 = new LatLng(latitude1, longitude1);
+            LatLng latlng2 = new LatLng(latitude1, longitude1);
 
-            mMap.addMarker(new MarkerOptions().position(latlng1).title(ce.getName())).setVisible(true);
+            mMap.addMarker(new MarkerOptions().position(latlng2).title(name + date + time)).setVisible(true);
             // Move the camera instantly to location with a zoom of 15.
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng1, 15));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng2, 15));
 
             // Zoom in, animating the camera.
             mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
 
+            return;
+
         }catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }
