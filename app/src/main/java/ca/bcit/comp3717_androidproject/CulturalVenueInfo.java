@@ -92,7 +92,6 @@ public class CulturalVenueInfo extends AppCompatActivity implements NavigationVi
 
             case R.id.nav_map :
                 Intent intent2 = new Intent(CulturalVenueInfo.this, LoadedMap.class);
-                intent2.putExtra("message_key1", culturalVenueList);
                 startActivity(intent2);
                 break;
 

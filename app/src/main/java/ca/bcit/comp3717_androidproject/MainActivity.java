@@ -103,14 +103,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_map :
                 Intent intent = new Intent(MainActivity.this, LoadedMap.class);
-                intent.putExtra("message_key1", culturalEventList);
                 startActivity(intent);
                 break;
 
             case R.id.nav_venue :
                 Intent intent2 = new Intent(MainActivity.this, CulturalVenueInfo.class);
-                //CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
-                //intent.putExtra("message_key", selectedFromList);
                 startActivity(intent2);
                 break;
         }

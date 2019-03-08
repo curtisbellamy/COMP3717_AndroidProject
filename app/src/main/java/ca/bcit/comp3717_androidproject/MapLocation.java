@@ -69,13 +69,12 @@ public class MapLocation extends AppCompatActivity implements OnMapReadyCallback
 
             case R.id.nav_map :
                 Intent intent2 = new Intent(MapLocation.this, LoadedMap.class);
-                //intent2.putExtra("message_key1", culturalVenueList);
                 startActivity(intent2);
                 break;
 
             case R.id.nav_venue :
-                // do nothing
-                drawer.closeDrawers();
+                Intent intent3 = new Intent(MapLocation.this, CulturalVenueInfo.class);
+                startActivity(intent3);
                 break;
         }
         return true;

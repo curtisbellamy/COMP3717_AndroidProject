@@ -109,13 +109,12 @@ public class EventInfo extends AppCompatActivity implements NavigationView.OnNav
 
             case R.id.nav_map :
                 Intent intent2 = new Intent(EventInfo.this, LoadedMap.class);
-                //intent2.putExtra("message_key1", culturalVenueList);
                 startActivity(intent2);
                 break;
 
             case R.id.nav_venue :
-                // do nothing
-                drawer.closeDrawers();
+                Intent intent3 = new Intent(EventInfo.this, CulturalVenueInfo.class);
+                startActivity(intent3);
                 break;
         }
         return true;

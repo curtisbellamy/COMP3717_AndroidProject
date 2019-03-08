@@ -94,13 +94,12 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_map :
                 Intent intent2 = new Intent(VenueDetails.this, LoadedMap.class);
-                //intent2.putExtra("message_key1", culturalVenueList);
                 startActivity(intent2);
                 break;
 
             case R.id.nav_venue :
-                // do nothing
-                drawer.closeDrawers();
+                Intent intent3 = new Intent(VenueDetails.this, CulturalVenueInfo.class);
+                startActivity(intent3);
                 break;
         }
         return true;

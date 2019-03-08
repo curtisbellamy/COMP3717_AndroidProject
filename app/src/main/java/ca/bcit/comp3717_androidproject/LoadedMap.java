@@ -91,14 +91,13 @@ public class LoadedMap extends AppCompatActivity implements OnMapReadyCallback, 
                 break;
 
             case R.id.nav_map :
-                Intent intent2 = new Intent(LoadedMap.this, LoadedMap.class);
-                //intent2.putExtra("message_key1", culturalVenueList);
-                startActivity(intent2);
+                // do nothing
+                drawer.closeDrawers();
                 break;
 
             case R.id.nav_venue :
-                // do nothing
-                drawer.closeDrawers();
+                Intent intent2 = new Intent(LoadedMap.this, CulturalVenueInfo.class);
+                startActivity(intent2);
                 break;
         }
         return true;
