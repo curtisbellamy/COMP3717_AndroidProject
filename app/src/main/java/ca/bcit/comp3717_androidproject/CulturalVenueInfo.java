@@ -46,26 +46,22 @@ public class CulturalVenueInfo extends AppCompatActivity implements NavigationVi
         lv = (ListView) findViewById(R.id.listView);
         new GetContacts().execute();
 
-        //String message = getIntent().getStringExtra("message_key");
         SERVICE_URL = "https://api.myjson.com/bins/vwf0y";
 
 
-        Intent intent = new Intent(CulturalVenueInfo.this, LoadedMap.class);
-        intent.putExtra("message_key2", culturalVenueList);
+        //Clicks on the list view, pass object to new activity
+        lv.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+                        Intent intent = new Intent(CulturalVenueInfo.this, VenueDetails.class);
+                        CulturalVenue selectedFromList = (CulturalVenue) lv.getItemAtPosition(position);
+                        intent.putExtra("message_key", selectedFromList);
+                        startActivity(intent);
 
-        // Clicks on the list view, pass object to new activity
-//        lv.setOnItemClickListener(
-//                new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-//                        Intent intent = new Intent(CulturalVenueInfo.this, CulturalEventDetails.class);
-//                        CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
-//                        intent.putExtra("message_key", selectedFromList);
-//                        startActivity(intent);
-//
-//                    }
-//                }
-//        );
+                    }
+                }
+        );
 
 
         //----------------------- Begin navigation menu -------------------------//

@@ -1,6 +1,8 @@
 package ca.bcit.comp3717_androidproject;
 
-public class CulturalVenue {
+import java.io.Serializable;
+
+public class CulturalVenue implements Serializable {
     private String name;
     private String description;
     private String address;
