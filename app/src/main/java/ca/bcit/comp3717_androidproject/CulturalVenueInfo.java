@@ -158,9 +158,8 @@ public class CulturalVenueInfo extends AppCompatActivity implements NavigationVi
                         String phone = jo.getString("phone");
 
                         // Placeholder image to be changed at a later time
-                        String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
-
-
+                        //String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
+                        String image = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Circle-icons-location.svg/1024px-Circle-icons-location.svg.png";
 
                         // tmp hash map for single contact
                         CulturalVenue cv = new CulturalVenue();

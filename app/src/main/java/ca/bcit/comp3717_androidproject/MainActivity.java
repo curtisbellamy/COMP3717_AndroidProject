@@ -170,7 +170,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         String time = jo.getString("time");
 
                         // Placeholder image to be changed at a later time
-                        String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
+                        //String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
+//                        String image = "https://themortgageprofessionals.ca/wp-content/uploads/2017/08/new-westminster-the-mortgage-professionals-846x564.png";
+                        String image = "https://tickera-wpsalad.netdna-ssl.com/wp-content/themes/tickera/style/img/freebies/icons/events/6.png?x46941";
 
 
 
