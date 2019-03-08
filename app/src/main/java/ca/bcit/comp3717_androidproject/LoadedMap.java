@@ -1,17 +1,26 @@
 package ca.bcit.comp3717_androidproject;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +29,17 @@ import java.util.Locale;
 
 public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
 
+    private String TAG = LoadedMap.class.getSimpleName();
+
+    private ProgressDialog pDialog;
+
     private GoogleMap mMap;
+
+    private static String SERVICE_URL_VENUE;
+    private static String SERVICE_URL_EVENTS;
+
+    private ArrayList<CulturalVenue> venueList;
+    private ArrayList<CulturalEvent> eventList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +49,11 @@ public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
 
+        SERVICE_URL_VENUE = "https://api.myjson.com/bins/vwf0y";
+        SERVICE_URL_EVENTS = "https://api.myjson.com/bins/15knzi";
+        new GetContacts().execute();
+    }
 
     /**
      * Manipulates the map once available.
@@ -44,6 +66,7 @@ public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
 
         try {
@@ -55,7 +78,6 @@ public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
             double longitude1 = address.getLongitude();
             double latitude1 = address.getLatitude();
 
-
             LatLng latlng1 = new LatLng(latitude1, longitude1);
 
             // Move the camera instantly to location with a zoom of 15.
@@ -63,68 +85,153 @@ public class LoadedMap extends FragmentActivity implements OnMapReadyCallback {
 
             // Zoom in, animating the camera.
             mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-        } catch (IOException e) {
+
+
+        } catch(IOException e) {
             e.printStackTrace();
         }
 
+            try {
 
-        Intent i = getIntent();
-        if(i != null) {
-            final ArrayList<CulturalEvent> list = (ArrayList<CulturalEvent>) i.getSerializableExtra("message_key1");
-            if (list == null){
-                final ArrayList<CulturalVenue> list2 = (ArrayList<CulturalVenue>) i.getSerializableExtra("message_key1");
+            for(CulturalVenue venue : venueList) {
 
-                for (CulturalVenue venue : list2) {
+                String myLocation = venue.getAddress() + "New Westminster, BC, Canada";
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
+                Address address = addresses.get(0);
+                double longitude1 = address.getLongitude();
+                double latitude1 = address.getLatitude();
 
-                    String myLocation = venue.getAddress() + ", New Westminster, BC, Canada";
+                LatLng latlng1 = new LatLng(latitude1, longitude1);
 
-                    try {
+                mMap.addMarker(new MarkerOptions().position(latlng1).title(venue.getName())).setVisible(true);
 
-                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                        List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
-                        Address address = addresses.get(0);
-                        double longitude = address.getLongitude();
-                        double latitude = address.getLatitude();
 
-                        LatLng latlng = new LatLng(latitude, longitude);
-
-                        mMap.addMarker(new MarkerOptions().position(latlng).title(venue.getName())).setVisible(true);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-            } else {
-
-                if (list != null) {
-
-                    for (CulturalEvent event : list) {
-
-                        String myLocation = event.getAddress() + ", New Westminster, BC, Canada";
-
-                        try {
-
-                            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                            List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
-                            Address address = addresses.get(0);
-                            double longitude = address.getLongitude();
-                            double latitude = address.getLatitude();
-
-                            LatLng latlng = new LatLng(latitude, longitude);
-
-                            mMap.addMarker(new MarkerOptions().position(latlng).title(event.getName() + ", " + event.getDate() + ", " + event.getTime())).setVisible(true);
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Async task class to get json by making HTTP call
+     */
+    private class GetContacts extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new ProgressDialog(LoadedMap.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
         }
 
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            venueList = new ArrayList<>();
+            eventList = new ArrayList<>();
+
+            // Making a request to url and getting response
+            String jsonStrVenue = sh.makeServiceCall(SERVICE_URL_VENUE);
+            String jsonStrEvent = sh.makeServiceCall(SERVICE_URL_EVENTS);
+
+            Log.e(TAG, "Response from url: " + jsonStrVenue);
+
+            if (jsonStrVenue != null && jsonStrEvent != null) {
+                try {
+                    JSONObject jsonObjVenue = new JSONObject(jsonStrVenue);
+                    JSONArray venueJsonArray = jsonObjVenue.getJSONArray("features");
+
+                    // looping through All Contacts
+                    for (int i = 0; i < venueJsonArray.length(); i++) {
+
+                        JSONObject c = venueJsonArray.getJSONObject(i);
+                        String prop = c.getString("properties");
+                        JSONObject jo = new JSONObject(prop);
+
+                        String firstName = jo.getString("Name");
+                        String details = jo.getString("Descriptn");
+                        String address = jo.getString("Address");
+
+                        // tmp hash map for single contact
+                        CulturalVenue cv = new CulturalVenue();
+
+                        cv.setName(firstName);
+                        cv.setAddress(address);
+
+                        // adding contact to contact list
+                        venueList.add(cv);
+
+
+                    }
+
+                    JSONObject jsonObjEvent = new JSONObject(jsonStrVenue);
+                    JSONArray eventJsonArray = jsonObjEvent.getJSONArray("features");
+
+
+                    for (int i = 0; i < eventJsonArray.length(); i++) {
+
+                        JSONObject c = eventJsonArray.getJSONObject(i);
+                        String prop = c.getString("properties");
+                        JSONObject jo = new JSONObject(prop);
+
+                        String firstName = jo.getString("Name");
+                        String details = jo.getString("Descriptn");
+                        String address = jo.getString("Address");
+
+                        // tmp hash map for single contact
+                        CulturalEvent ce = new CulturalEvent();
+
+                        ce.setName(firstName);
+                        ce.setAddress(address);
+
+                        // adding contact to contact list
+                        eventList.add(ce);
+                    }
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+
+                }
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
+        }
     }
 
 }

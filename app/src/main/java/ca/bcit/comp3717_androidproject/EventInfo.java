@@ -59,8 +59,8 @@ public class EventInfo extends AppCompatActivity {
 
         mapBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(EventInfo.this, MapLocation.class);
-                intent.putExtra("message_key", ce);
+                Intent intent = new Intent(EventInfo.this, LoadedMap.class);
+                intent.putExtra("focus_location", ce);
                 startActivity(intent);
             }
         });

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //TODO phone numbers & websites?
     //TODO add nav bar to all activities
     //TODO make default maps page show all event and venue addresses
-    //TODO make all json arrays load in loadedmap, and only see map option on events page
+    //TODO make all json arrays load in loadedmap
 
 
     @Override
