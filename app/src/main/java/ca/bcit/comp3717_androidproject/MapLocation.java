@@ -1,5 +1,8 @@
 package ca.bcit.comp3717_androidproject;
 
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -9,6 +12,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MapLocation extends FragmentActivity implements OnMapReadyCallback {
 
@@ -37,10 +44,33 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Intent i = getIntent();
+        final CulturalEvent ce = (CulturalEvent) i.getSerializableExtra("message_key");
+//        if(ce == null){
+//            Intent i2 = getIntent();
+//            final CulturalVenue cv = (CulturalVenue) i.getSerializableExtra("message_key2");
+//
+//        }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        try {
+            String myLocation = ce.getAddress() + "New Westminster, BC, Canada";
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocationName(myLocation, 1);
+            Address address = addresses.get(0);
+            double longitude1 = address.getLongitude();
+            double latitude1 = address.getLatitude();
+
+            LatLng latlng1 = new LatLng(latitude1, longitude1);
+
+            mMap.addMarker(new MarkerOptions().position(latlng1).title(ce.getName())).setVisible(true);
+            // Move the camera instantly to location with a zoom of 15.
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng1, 15));
+
+            // Zoom in, animating the camera.
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
