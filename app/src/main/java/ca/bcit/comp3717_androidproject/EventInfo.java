@@ -1,7 +1,9 @@
 package ca.bcit.comp3717_androidproject;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -36,6 +39,26 @@ public class EventInfo extends AppCompatActivity implements NavigationView.OnNav
         TextView address = (TextView) findViewById(R.id.eventAddress);
         TextView details = (TextView) findViewById(R.id.eventDetails);
 
+        Button mapBtn = (Button) findViewById(R.id.mapBtn);
+        Button webBtn = (Button) findViewById(R.id.webClick);
+        final String url = ce.getWebsite();
+
+        webBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //view.loadUrl(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.android.chrome");
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    // Chrome browser presumably not installed so allow user to choose instead
+                    intent.setPackage(null);
+                    startActivity(intent);
+                }
+            }
+        });
+
         title.setText(ce.getName());
 
         if (ce.getDate() != "")
@@ -48,23 +71,26 @@ public class EventInfo extends AppCompatActivity implements NavigationView.OnNav
         else
             time.setText("N/A");
 
-        if (ce.getAddress() != "")
-            address.setText(ce.getAddress());
-        else
+        if (ce.getAddress() == ""){
             address.setText("N/A");
+            mapBtn.setEnabled(false);
+        }else {
+            address.setText(ce.getAddress());
+        }
 
         if (ce.getDescriptn() != "")
             details.setText(ce.getDescriptn());
         else
             details.setText("N/A");
 
+
+        if(ce.getWebsite() == "") {
+            webBtn.setEnabled(false);
+        }
+
+
+
         details.setMovementMethod(new ScrollingMovementMethod());
-
-        Button mapBtn = (Button) findViewById(R.id.mapBtn);
-
-        if (ce.getAddress() == "")
-            mapBtn.setVisibility(View.GONE);
-
 
         mapBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

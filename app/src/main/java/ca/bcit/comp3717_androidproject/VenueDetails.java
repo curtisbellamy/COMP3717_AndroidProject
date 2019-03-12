@@ -1,6 +1,8 @@
 package ca.bcit.comp3717_androidproject;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -49,7 +51,7 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
         Button mapBtn = (Button) findViewById(R.id.mapBtn);
 
         if (cv.getAddress() == "")
-            mapBtn.setVisibility(View.GONE);
+            mapBtn.setEnabled(false);
 
 
         mapBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,22 +70,25 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
         });
 
         Button webBtn = (Button) findViewById(R.id.webClick);
-        final WebView view =(WebView) findViewById(R.id.webView);
-
-        view.getSettings().setJavaScriptEnabled(true);
 
         final String url = cv.getWebsite();
 
-        if(cv.getWebsite() == ""){
-            webBtn.setVisibility(View.GONE);
-        } else {
-
-            view.setVisibility(View.GONE);
-        }
+        if(cv.getWebsite() == "")
+            webBtn.setEnabled(false);
 
         webBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                view.loadUrl(url);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.android.chrome");
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    // Chrome browser presumably not installed so allow user to choose instead
+                    intent.setPackage(null);
+                    startActivity(intent);
+                }
             }
         });
 

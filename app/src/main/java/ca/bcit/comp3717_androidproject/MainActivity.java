@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //TODO favourites page, arraylist intent?
     //TODO event details website
     //TODO fix screen resolution issues
-    //TODO fix map button for events/venues that dont have an address
     //TODO programatically center map button if no website
 
 
@@ -163,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         String details = jo.getString("Descriptn");
                         String address = jo.getString("Address");
                         String time = jo.getString("time");
+                        String website = jo.getString("website");
 
                         // Placeholder image to be changed at a later time
                         //String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         ce.setDate(date);
                         ce.setDescriptn(details);
                         ce.setAddress(address);
+                        ce.setWebsite(website);
 
                         // adding contact to contact list
                         culturalEventList.add(ce);
