@@ -10,15 +10,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="@string/app_name"
         android:allowBackup="true"
         android:icon="@drawable/icon"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VenueDetails"
+        <activity android:name=".OrganizationList"></activity>
+        <activity android:name=".ParkList" />
+        <activity
+            android:name=".VenueDetails"
             android:label="Details"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -34,7 +37,7 @@
         <activity
             android:name=".MapLocation"
             android:label="@string/title_activity_map_location"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CulturalVenueInfo"
             android:label="Venues"
@@ -42,14 +45,15 @@
         <activity
             android:name=".LoadedMap"
             android:label="@string/title_activity_loaded_map"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".EventInfo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EventInfo"
             android:label="Details"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="Events">
+            android:label="Events"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

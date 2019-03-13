@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+
 import java.util.ArrayList;
 
 import static java.security.AccessController.getContext;
@@ -24,7 +27,7 @@ public class CulturalEventAdapter extends ArrayAdapter<CulturalEvent>{
     public View getView(int position, View convertView, ViewGroup parent) {
         final Activity activity = (Activity) _context;
         // Get the data item for this position
-        CulturalEvent ce = getItem(position);
+        final CulturalEvent ce = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_layout, parent, false);
@@ -35,7 +38,7 @@ public class CulturalEventAdapter extends ArrayAdapter<CulturalEvent>{
         // Populate the data into the template view using the data object
         tvFirstName.setText(ce.getName());
 //        tvLastName.setText(ce.getCity());
-        tvLastName.setText(ce.getDate());
+        tvLastName.setText(ce.getDate() + ", " + ce.getTime());
 
         ImageView imgOnePhoto = (ImageView) convertView.findViewById(R.id.thumbImage);
 

@@ -17,8 +17,15 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class VenueDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class VenueDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     private DrawerLayout drawer;
 
@@ -29,6 +36,7 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
 
         Intent i = getIntent();
         final CulturalVenue cv = (CulturalVenue) i.getSerializableExtra("message_key");
+
 
         TextView title = (TextView) findViewById(R.id.eventTitle);
         TextView address = (TextView) findViewById(R.id.eventAddress);

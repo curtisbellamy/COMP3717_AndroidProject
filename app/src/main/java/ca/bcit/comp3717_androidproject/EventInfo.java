@@ -19,10 +19,19 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class EventInfo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
-    // Navigation menu
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class EventInfo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
+
+    ArrayList<CulturalEvent> favouritesList;
+
+    //Navigation menu
     private DrawerLayout drawer;
 
     @Override
@@ -32,6 +41,8 @@ public class EventInfo extends AppCompatActivity implements NavigationView.OnNav
 
         Intent i = getIntent();
         final CulturalEvent ce = (CulturalEvent) i.getSerializableExtra("message_key");
+
+        favouritesList = new ArrayList<>();
 
         TextView title = (TextView) findViewById(R.id.eventTitle);
         TextView date = (TextView) findViewById(R.id.eventDate);

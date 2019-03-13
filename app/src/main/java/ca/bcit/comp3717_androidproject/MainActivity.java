@@ -17,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     private String TAG = MainActivity.class.getSimpleName();
     private ProgressDialog pDialog;
@@ -35,11 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Navigation menu
     private DrawerLayout drawer;
 
-    //TODO favourites page, arraylist intent?
-    //TODO event details website
+    //TODO new pages (cultural organization, parks)
     //TODO fix screen resolution issues
-    //TODO programatically center map button if no website
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +52,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String message = getIntent().getStringExtra("message_key");
         SERVICE_URL = "https://api.myjson.com/bins/15knzi";
 
+
         // Clicks on the list view, pass object to new activity
         lv.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
                         Intent intent = new Intent(MainActivity.this, EventInfo.class);
-                        CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
+                        final CulturalEvent selectedFromList = (CulturalEvent) lv.getItemAtPosition(position);
                         intent.putExtra("message_key", selectedFromList);
                         startActivity(intent);
 
