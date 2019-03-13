@@ -1,11 +1,14 @@
 package ca.bcit.comp3717_androidproject;
 
-public class CulturalOrganization {
+import java.io.Serializable;
+
+public class CulturalOrganization implements Serializable {
 
     private String name;
     private String address;
     private String website;
     private String description;
+    private String image;
 
     public CulturalOrganization(String name, String address, String website, String description) {
         this.name = name;
@@ -44,5 +47,13 @@ public class CulturalOrganization {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
