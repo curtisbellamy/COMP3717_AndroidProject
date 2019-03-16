@@ -153,6 +153,11 @@ public class EventInfo extends AppCompatActivity implements NavigationView.OnNav
                 Intent intent3 = new Intent(EventInfo.this, CulturalVenueInfo.class);
                 startActivity(intent3);
                 break;
+
+            case R.id.nav_org :
+                Intent intent4 = new Intent(EventInfo.this, OrganizationList.class);
+                startActivity(intent4);
+                break;
         }
         return true;
     }

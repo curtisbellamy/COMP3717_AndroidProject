@@ -16,8 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OrganizationList"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".OrganizationDetails"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Details"/>
+        <activity
+            android:name=".OrganizationList"
+            android:label="Organizations"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ParkList" />
         <activity
             android:name=".VenueDetails"

@@ -25,32 +25,32 @@ import com.like.OnLikeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class VenueDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
+public class OrganizationDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_venue_details);
+        setContentView(R.layout.activity_organization_details);
 
         Intent i = getIntent();
-        final CulturalVenue cv = (CulturalVenue) i.getSerializableExtra("message_key");
+        final CulturalOrganization co = (CulturalOrganization) i.getSerializableExtra("message_key");
 
 
-        TextView title = (TextView) findViewById(R.id.eventTitle);
-        TextView address = (TextView) findViewById(R.id.eventAddress);
-        TextView details = (TextView) findViewById(R.id.eventDetails);
+        TextView title = (TextView) findViewById(R.id.orgTitle);
+        TextView address = (TextView) findViewById(R.id.orgAddress);
+        TextView details = (TextView) findViewById(R.id.orgDetails);
 
-        title.setText(cv.getName());
+        title.setText(co.getName());
 
-        if (cv.getAddress() != "")
-            address.setText(cv.getAddress());
+        if (co.getAddress() != "")
+            address.setText(co.getAddress());
         else
             address.setText("N/A");
 
-        if (cv.getDescription() != "")
-            details.setText(cv.getDescription());
+        if (co.getDescription() != "")
+            details.setText(co.getDescription());
         else
             details.setText("N/A");
 
@@ -58,15 +58,15 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
 
         Button mapBtn = (Button) findViewById(R.id.mapBtn);
 
-        if (cv.getAddress() == "")
+        if (co.getAddress() == "")
             mapBtn.setEnabled(false);
 
 
         mapBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(VenueDetails.this, MapLocation.class);
-                String name = cv.getName();
-                String address = cv.getAddress();
+                Intent intent = new Intent(OrganizationDetails.this, MapLocation.class);
+                String name = co.getName();
+                String address = co.getAddress();
                 String date = "";
                 String time = "";
                 intent.putExtra("message_key1", name);
@@ -79,9 +79,9 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
 
         Button webBtn = (Button) findViewById(R.id.webClick);
 
-        final String url = cv.getWebsite();
+        final String url = co.getWebsite();
 
-        if(cv.getWebsite() == "")
+        if(co.getWebsite() == "")
             webBtn.setEnabled(false);
 
         webBtn.setOnClickListener(new View.OnClickListener() {
@@ -123,22 +123,22 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_event :
-                Intent intent = new Intent(VenueDetails.this, MainActivity.class);
+                Intent intent = new Intent(OrganizationDetails.this, MainActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.nav_map :
-                Intent intent2 = new Intent(VenueDetails.this, LoadedMap.class);
+                Intent intent2 = new Intent(OrganizationDetails.this, LoadedMap.class);
                 startActivity(intent2);
                 break;
 
             case R.id.nav_venue :
-                Intent intent3 = new Intent(VenueDetails.this, CulturalVenueInfo.class);
+                Intent intent3 = new Intent(OrganizationDetails.this, CulturalVenueInfo.class);
                 startActivity(intent3);
                 break;
 
             case R.id.nav_org :
-                Intent intent4 = new Intent(VenueDetails.this, OrganizationList.class);
+                Intent intent4 = new Intent(OrganizationDetails.this, OrganizationList.class);
                 startActivity(intent4);
                 break;
         }

@@ -76,6 +76,11 @@ public class MapLocation extends AppCompatActivity implements OnMapReadyCallback
                 Intent intent3 = new Intent(MapLocation.this, CulturalVenueInfo.class);
                 startActivity(intent3);
                 break;
+
+            case R.id.nav_org :
+                Intent intent4 = new Intent(MapLocation.this, OrganizationList.class);
+                startActivity(intent4);
+                break;
         }
         return true;
     }

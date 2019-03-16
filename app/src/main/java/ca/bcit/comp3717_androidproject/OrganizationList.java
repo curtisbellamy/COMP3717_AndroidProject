@@ -17,13 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class OrganizationList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,7 +51,7 @@ public class OrganizationList extends AppCompatActivity implements NavigationVie
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-                        Intent intent = new Intent(OrganizationList.this, EventInfo.class);
+                        Intent intent = new Intent(OrganizationList.this, OrganizationDetails.class);
                         final CulturalOrganization selectedFromList = (CulturalOrganization) lv.getItemAtPosition(position);
                         intent.putExtra("message_key", selectedFromList);
                         startActivity(intent);
@@ -98,6 +94,11 @@ public class OrganizationList extends AppCompatActivity implements NavigationVie
             case R.id.nav_venue:
                 Intent intent2 = new Intent(OrganizationList.this, CulturalVenueInfo.class);
                 startActivity(intent2);
+                break;
+
+            case R.id.nav_org :
+                // do nothing
+                drawer.closeDrawers();
                 break;
         }
         return true;
@@ -156,20 +157,12 @@ public class OrganizationList extends AppCompatActivity implements NavigationVie
                         String address = jo.getString("Address");
                         String website = jo.getString("website");
 
-                        // Placeholder image to be changed at a later time
-                        //String image = "http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png";
-//                        String image = "https://themortgageprofessionals.ca/wp-content/uploads/2017/08/new-westminster-the-mortgage-professionals-846x564.png";
                         String image = "https://www.ezulunewstart.com/wp-content/uploads/2018/01/experience.png";
 
 
                         // tmp hash map for single contact
                         CulturalOrganization co = new CulturalOrganization(firstName, address, website, details);
 
-//                        co.setName(firstName);
-//                        co.setImage(image);
-//                        co.setDescription(details);
-//                        co.setAddress(address);
-//                        co.setWebsite(website);
                         co.setImage(image);
 
                         // adding contact to contact list

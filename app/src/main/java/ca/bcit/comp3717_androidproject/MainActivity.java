@@ -17,8 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +35,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Navigation menu
     private DrawerLayout drawer;
 
-    //TODO new pages (cultural organization, parks)
+    //TODO parks page
     //TODO fix screen resolution issues
+    //TODO fix nav bar links on parks and orgs page
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

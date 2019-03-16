@@ -99,6 +99,11 @@ public class CulturalVenueInfo extends AppCompatActivity implements NavigationVi
                 // do nothing
                 drawer.closeDrawers();
                 break;
+
+            case R.id.nav_org :
+                Intent intent4 = new Intent(CulturalVenueInfo.this, OrganizationList.class);
+                startActivity(intent4);
+                break;
         }
         return true;
     }
