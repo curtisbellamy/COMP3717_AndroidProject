@@ -91,8 +91,7 @@ public class EventInfo extends AppCompatActivity implements NavigationView.OnNav
 
         if (ce.getDescriptn() != "")
             details.setText(ce.getDescriptn());
-        else
-            details.setText("N/A");
+
 
 
         if(ce.getWebsite() == "") {

@@ -82,18 +82,18 @@ public class OrganizationList extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_event:
-                // do nothing
-                drawer.closeDrawers();
-                break;
-
-            case R.id.nav_map:
-                Intent intent = new Intent(OrganizationList.this, LoadedMap.class);
+                Intent intent = new Intent(OrganizationList.this, MainActivity.class);
                 startActivity(intent);
                 break;
 
-            case R.id.nav_venue:
-                Intent intent2 = new Intent(OrganizationList.this, CulturalVenueInfo.class);
+            case R.id.nav_map:
+                Intent intent2 = new Intent(OrganizationList.this, LoadedMap.class);
                 startActivity(intent2);
+                break;
+
+            case R.id.nav_venue:
+                Intent intent3 = new Intent(OrganizationList.this, CulturalVenueInfo.class);
+                startActivity(intent3);
                 break;
 
             case R.id.nav_org :

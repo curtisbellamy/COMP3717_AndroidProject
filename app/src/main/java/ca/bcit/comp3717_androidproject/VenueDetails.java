@@ -51,8 +51,7 @@ public class VenueDetails extends AppCompatActivity implements NavigationView.On
 
         if (cv.getDescription() != "")
             details.setText(cv.getDescription());
-        else
-            details.setText("N/A");
+
 
         details.setMovementMethod(new ScrollingMovementMethod());
 

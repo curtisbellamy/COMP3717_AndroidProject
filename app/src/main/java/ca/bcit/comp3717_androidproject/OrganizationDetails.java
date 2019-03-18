@@ -51,8 +51,6 @@ public class OrganizationDetails extends AppCompatActivity implements Navigation
 
         if (co.getDescription() != "")
             details.setText(co.getDescription());
-        else
-            details.setText("N/A");
 
         details.setMovementMethod(new ScrollingMovementMethod());
 
