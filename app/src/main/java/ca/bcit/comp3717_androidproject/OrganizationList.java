@@ -157,7 +157,7 @@ public class OrganizationList extends AppCompatActivity implements NavigationVie
                         String address = jo.getString("Address");
                         String website = jo.getString("website");
 
-                        String image = "https://www.ezulunewstart.com/wp-content/uploads/2018/01/experience.png";
+                        String image = "https://work.anpit.it/wp-content/uploads/2018/05/YMAP-ICONS-PEOPLE-01.png";
 
 
                         // tmp hash map for single contact
