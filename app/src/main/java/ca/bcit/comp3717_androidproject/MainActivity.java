@@ -35,9 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Navigation menu
     private DrawerLayout drawer;
 
-    //TODO parks page
-    //TODO fix screen resolution issues
-    //TODO fix nav bar links on parks and orgs page
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
